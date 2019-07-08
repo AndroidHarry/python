@@ -3,7 +3,7 @@
 很多类都倾向于将对象创建为有初始状态的。因此类可能会定义一个名为 __init__() 的特殊方法（构造方法），像下面这样：
 
 def __init__(self):
-self.data = []
+    self.data = []
 
 
 self代表类的实例，而非类
@@ -240,10 +240,42 @@ v1 = Vector(2,10)
 v2 = Vector(5,-2)
 print (v1 + v2)
 
+'''
+* 我们可以使用 __str__ 和 __repr__ 方法定义类到字符串的转化方式，而不需要手动打印某些属性或是添加额外的方法。
+
+* 一般来说，__str__ 的返回结果在于强可读性，而 __repr__ 的返回结果在于准确性。
+
+* 我们至少需要添加一个 __repr__ 方法来保证类到字符串的自定义转化的有效性，__str__ 是可选的。因为默认情况下，在需要却找不到 __str__ 方法的时候，会自动调用 __repr__ 方法。
+
+def __repr__(self):
+    return '{}({!r},{!r})'.format(self.__class__.__name__, self.color, self.mileage)
+注意，我们这里用了 !r 标记，是为了保证 self.color 与 self.mileage 在转化为字符串的时候使用 repr(self.color) 和 repr(self.mileage) ，而不是 str(self.color) 和 str(self.mileage) 。
+使用对象的 __class__.__name__ 属性，该属性总代表着类的名称。
+'''
 
 
+'''
+python __nonzero__方法
+类的nonzero方法用于将类转换为布尔值。通常在用类进行判断和将类转换成布尔值时调用。比如语句if A: print 'foo'中就会调用A.nonzero()来判断。下面这个程序应该能帮助你理解nonzero的作用。
+
+class A:
+  def __nonzero__(self):
+    print 'A._nonzero__()'
+    return True
+
+print 'A is not zero' if A() else 'A is zero'
+print bool(A())
+output：
+
+A._nonzero__()
+A is not zero
+A._nonzero__()
+True
 
 
+def __bool__(self):
+        return self.__nonzero__()
+'''
 
 
 

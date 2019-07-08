@@ -1,0 +1,36 @@
+#过滤数据库文件、sln解决方案文件、配置文件  
+*.mdb  
+*.ldb  
+*.suo
+*.vs
+
+# Microsoft Visual Source Safe 文件后缀
+*.*scc
+
+#.sln  
+#*.config  
+
+
+#过滤文件夹Debug,Release,obj  
+__pycache__/
+bin/
+Debug/  
+Release/  
+obj/  
+publish/
+.vs/
+logs/
+packages/
+PrecompiledWeb/
+
+
+Securites/Shop/UploadFiles/
+
+
+# 这些文件是Visual Studio 2010用来保存预编译的头文件 和Intellisense 用的，删除这些文件对于工程的开发完全没有影响。
+ipch/
+*.sdf
+
+
+
+

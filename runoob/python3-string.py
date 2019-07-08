@@ -230,6 +230,7 @@ encode(encoding='UTF-8',errors='strict')
 
 
 以 encoding 指定的编码格式编码字符串，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace'
+(Harry: 'replace'替换其中异常的编码，这个相对来可能一眼就知道那些字符编码出问题了。)
 6	
 endswith(suffix, beg=0, end=len(string))
 检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False.

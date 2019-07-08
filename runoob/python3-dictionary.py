@@ -17,6 +17,7 @@ d = {key1 : value1, key2 : value2 }
 
 dict1 = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
 print ("dict['Age']: ", dict1['Age'])
+print ("dict['Class']: ", dict1.get('Class'))
 #print ("dict['School']: ", dict['School'])
 
 

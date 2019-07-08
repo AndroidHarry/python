@@ -30,4 +30,19 @@ print('\n\nPython 路径为：', sys.path, '\n')
 '''
 
 
+'''
+在导入一个包的时候，Python 会根据 sys.path 中的目录来寻找这个包中包含的子目录。
+目录只有包含一个叫做 __init__.py 的文件才会被认作是一个包，主要是为了避免一些滥俗的名字（比如叫做 string）不小心的影响搜索路径中的有效模块。
+最简单的情况，放一个空的 :file:__init__.py就可以了。当然这个文件中也可以包含一些初始化代码或者为（将在后面介绍的） __all__变量赋值。
+
+
+导入语句遵循如下规则：如果包定义文件 __init__.py 存在一个叫做 __all__ 的列表变量，那么在使用 from package import * 的时候就把这个列表中的所有名字作为包内容导入。
+作为包的作者，可别忘了在更新包之后保证 __all__ 也更新了啊。
+这里有一个例子，在:file:sounds/effects/__init__.py中包含如下代码:
+__all__ = ["echo", "surround", "reverse"]
+这表示当你使用from sound.effects import *这种用法时，你只会导入包里面这三个子模块。
+如果 __all__ 真的没有定义，那么使用from sound.effects import *这种语法的时候，就不会导入包 sound.effects 里的任何子模块。
+他只是把包sound.effects和它里面定义的所有内容导入进来（可能运行__init__.py里定义的初始化代码）。
+
+'''
 
