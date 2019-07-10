@@ -211,10 +211,10 @@ __init__ : 构造函数，在生成对象时调用
 __del__ : 析构函数，释放对象时使用
 __repr__ : 打印，转换
 __setitem__ : 按照索引赋值
-__getitem__: 按照索引获取值
+__getitem__: 按照索引获取值 https://www.cnblogs.com/MY0213/p/7884166.html (harry: 普通方法,key可以是字符串; 迭代时,只能是整形索引.)
 __len__: 获得长度
 __cmp__: 比较运算
-__call__: 函数调用
+__call__: 函数调用 https://www.jianshu.com/p/e1d95c4e1697 (harry: 如果在类中实现了 __call__ 方法，那么实例对象也将成为一个可调用对象.)
 __add__: 加运算
 __sub__: 减运算
 __mul__: 乘运算

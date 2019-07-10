@@ -2,6 +2,16 @@
 # refer to
 # http://www.runoob.com/python3/python3-list-operator.html
 
+
+a=[1,2,3]
+b=a
+c=a[:]  # 浅拷贝, 非引用
+a[0]=5
+a   # [5, 2, 3]
+b   # [5, 2, 3]
+c   # [1, 2, 3]
+
+
 import math  # 导入 math 模块
 
 # 列表的数据项不需要具有相同的类型

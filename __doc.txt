@@ -2,6 +2,8 @@ https://docs.python.org/3/reference/datamodel.html
 
 Python基础教程，Python入门教程 http://c.biancheng.net/python/
 
+Python 进阶 https://eastlakeside.gitbooks.io/interpy-zh/content/decorators/
+
 
 以单下划线开头（_foo）的代表不能直接访问的类属性，需通过类提供的接口进行访问，不能用“from xxx import *”而导入；
 以双下划线开头的（__foo）代表类的私有成员；
@@ -13,5 +15,5 @@ __getstate__ 与 __setstate__的作用 (https://blog.csdn.net/shuimuniao/article
 一些对象类型（譬如，文件对象）不能进行 pickle。处理这种不能 pickle 的对象的实例属性时可以使用特殊的方法（ _getstate_() 和 _setstate_() ）来修改类实例的状态。
 
 
-__call__方法 (http://c.biancheng.net/view/2380.html)
+__call__方法 (http://c.biancheng.net/view/2380.html)(https://www.jianshu.com/p/e1d95c4e1697)
 
