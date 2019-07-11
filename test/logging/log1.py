@@ -123,7 +123,7 @@ logger2.error('The five boxing wizards jump quickly.')
 # (这是因为它会假设过滤级别总是在队列的另一侧去设置的。) 
 # 从Python 3.5开始，可以通过在监听器构造函数中添加一个参数``respect_handler_level=True``改变这种情况。
 # 当这样设置时，监听器会比较每条消息的等级和日志处理器中设置的等级，只把需要传递的消息传给对应的日志处理器。
-
+'''
 import queue
 from logging.handlers import QueueListener
 from logging.handlers import QueueHandler
@@ -146,31 +146,87 @@ listener.start()
 root.warning('Look out!')
 listener.stop()
 root.warning('Look out2!')
+'''
+############################################################################
+## test6
 
+# 有时，你希望当日志文件不断记录增长至一定大小时，打开一个新的文件接着记录。 
+# 你可能希望只保留一定数量的日志文件，当不断的创建文件到达该数量时，又覆盖掉最开始的文件形成循环。 
+# 对于这种使用场景，日志包提供了 RotatingFileHandler
+'''
+import glob
+import logging
+import logging.handlers
+
+LOG_FILENAME = 'logging_rotatingfile_example.out'
+
+# Set up a specific logger with our desired output level
+my_logger = logging.getLogger('MyLogger')
+my_logger.setLevel(logging.DEBUG)
+
+# Add the log message handler to the logger
+handler = logging.handlers.RotatingFileHandler(
+              LOG_FILENAME, maxBytes=20, backupCount=5)
+
+my_logger.addHandler(handler)
+
+# Log some messages
+for i in range(20):
+    my_logger.debug('i = %d' % i)
+
+# See what files are created
+logfiles = glob.glob('%s*' % LOG_FILENAME)
+
+for filename in logfiles:
+    print(filename)
+'''
 ############################################################################
 
+'''
+# 日志（从 3.2 开始）为这两种格式化方式提供了更多支持。
+# Formatter 类可以添加一个额外的可选关键字参数 style。
+# 它的默认值是 '%'，其他的值 '{' 和 '$' 也支持，对应了其他两种格式化样式。
+# 其保持了向后兼容（如您所愿），但通过显示指定样式参数，你可以指定格式化字符串的方式是使用 str.format() 或 string.Template。 
+# 这里是一个控制台会话的示例，展示了这些方式：
+
+import logging
+root = logging.getLogger()
+root.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+bf = logging.Formatter('{asctime} {name} {levelname:8s} {message}', style='{')
+handler.setFormatter(bf)
+root.addHandler(handler)
+logger = logging.getLogger('foo.bar')
+logger.debug('This is a DEBUG message')
+# 2010-10-28 15:11:55,341 foo.bar DEBUG    This is a DEBUG message
+logger.critical('This is a CRITICAL message')
+# 2010-10-28 15:12:11,526 foo.bar CRITICAL This is a CRITICAL message
+df = logging.Formatter('$asctime $name ${levelname} $message', style='$')
+handler.setFormatter(df)
+logger.debug('This is a DEBUG message')
+# 2010-10-28 15:13:06,924 foo.bar DEBUG This is a DEBUG message
+logger.critical('This is a CRITICAL message')
+# 2010-10-28 15:13:11,494 foo.bar CRITICAL This is a CRITICAL message
+
+logger.error('This is an%s %s %s', 'other,', 'ERROR,', 'message')
+# 2010-10-28 15:19:29,833 foo.bar ERROR This is another, ERROR, message
 
 '''
-logger = logging.getLogger('log1')
-logger.setLevel(logging.NOTSET)
-
-# logger.addHandler(logging.NullHandler())
-
-cmdHandler = logging.StreamHandler()
-cmdHandler.setLevel(logging.NOTSET)
-
-# create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-cmdHandler.setFormatter(formatter)
-
-logger.addHandler(cmdHandler)
-
-logger.debug('it is debug.')
-
-print('a')
+############################################################################
 '''
+import logging
 
+logging.basicConfig(filename="test.log", filemode="w", format="%(asctime)s %(name)s:%(levelname)s:%(message)s", datefmt="%d-%M-%Y %H:%M:%S", level=logging.DEBUG)
+logging.debug('This is a debug message')
+logging.info('This is an info message')
+logging.warning('This is a warning message')
+logging.error('This is an error message')
+logging.critical('This is a critical message')
+'''
+############################################################################
+
+# 但是当发生异常时，直接使用无参数的 debug()、info()、warning()、error()、critical() 方法并不能记录异常信息，
+# 需要设置 exc_info 参数为 True 才可以，或者使用 exception() 方法，还可以使用 log() 方法，但还要设置日志级别和 exc_info 参数。
 
 '''
 logging.basicConfig(filename="test.log", filemode="w", format="%(asctime)s %(name)s:%(levelname)s:%(message)s", datefmt="%d-%M-%Y %H:%M:%S", level=logging.DEBUG)
@@ -181,7 +237,93 @@ try:
 except Exception as e:
     # 下面三种方式三选一，推荐使用第一种
     logging.exception("Exception occurred")
-    logging.error("Exception occurred", exc_info=True)
-    logging.log(level=logging.DEBUG, msg="Exception occurred", exc_info=True)
+    # logging.error("Exception occurred", exc_info=True)
+    # logging.log(level=logging.DEBUG, msg="Exception occurred", exc_info=True)
 '''
+############################################################################
+
+# Logger 对象和 Handler 对象都可以设置级别，而默认 Logger 对象级别为 30 ，也即 WARNING，默认 Handler 对象级别为 0，也即 NOTSET。
+# logging 模块这样设计是为了更好的灵活性，比如有时候我们既想在控制台中输出DEBUG 级别的日志，又想在文件中输出WARNING级别的日志。
+# 可以只设置一个最低级别的 Logger 对象，两个不同级别的 Handler 对象，示例代码如下：
+'''
+import logging
+import logging.handlers
+
+logger = logging.getLogger("logger")
+
+handler1 = logging.StreamHandler()
+handler2 = logging.FileHandler(filename="test.log")
+
+logger.setLevel(logging.DEBUG)
+handler1.setLevel(logging.WARNING)
+handler2.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
+handler1.setFormatter(formatter)
+handler2.setFormatter(formatter)
+
+logger.addHandler(handler1)
+logger.addHandler(handler2)
+
+# 分别为 30、10、10
+print(handler1.level)
+print(handler2.level)
+print(logger.level)
+
+logger.debug('This is a customer debug message')
+logger.info('This is an customer info message')
+logger.warning('This is a customer warning message')
+logger.error('This is an customer error message')
+logger.critical('This is a customer critical message')
+'''
+
+############################################################################
+# 从字典中获取配置信息：
+
+'''
+import logging.config
+
+config = {
+    'version': 1,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        },
+        # 其他的 formatter
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'formatter': 'simple'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'logging.log',
+            'level': 'DEBUG',
+            'formatter': 'simple'
+        },
+        # 其他的 handler
+    },
+    'loggers':{
+        'StreamLogger': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'FileLogger': {
+            # 既有 console Handler，还有 file Handler
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+        },
+        # 其他的 Logger
+    }
+}
+
+logging.config.dictConfig(config)
+StreamLogger = logging.getLogger("StreamLogger")
+FileLogger = logging.getLogger("FileLogger")
+# 省略日志输出
+'''
+############################################################################
+
 
