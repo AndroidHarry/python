@@ -245,14 +245,14 @@ except Exception as e:
 # Logger 对象和 Handler 对象都可以设置级别，而默认 Logger 对象级别为 30 ，也即 WARNING，默认 Handler 对象级别为 0，也即 NOTSET。
 # logging 模块这样设计是为了更好的灵活性，比如有时候我们既想在控制台中输出DEBUG 级别的日志，又想在文件中输出WARNING级别的日志。
 # 可以只设置一个最低级别的 Logger 对象，两个不同级别的 Handler 对象，示例代码如下：
-'''
+#'''
 import logging
 import logging.handlers
 
 logger = logging.getLogger("logger")
 
 handler1 = logging.StreamHandler()
-handler2 = logging.FileHandler(filename="test.log")
+handler2 = logging.FileHandler(filename="test.log", encoding="utf-8")   # 将文件编码设置为 “utf-8”（utf-8 和 utf8 等价），就可以解决中文乱码问题啦。
 
 logger.setLevel(logging.DEBUG)
 handler1.setLevel(logging.WARNING)
@@ -270,12 +270,12 @@ print(handler1.level)
 print(handler2.level)
 print(logger.level)
 
-logger.debug('This is a customer debug message')
-logger.info('This is an customer info message')
-logger.warning('This is a customer warning message')
-logger.error('This is an customer error message')
+logger.debug('This is a 自定义 debug message')
+logger.info('This is an 自定义 info message')
+logger.warning('This is a 自定义 warning message')
+logger.error('This is an 自定义 error message')
 logger.critical('This is a customer critical message')
-'''
+#'''
 
 ############################################################################
 # 从字典中获取配置信息：

@@ -53,6 +53,21 @@ Handler ：处理器, 将(日志记录器产生的)日志记录发送至合适�
 Filter ：过滤器, 提供了更好的粒度控制,它可以决定输出哪些日志记录。
 Formatter：格式化器, 指明了最终输出中日志记录的布局。
 
+临时禁用日志输出
+-------------------
+logging.disable(logging.INFO)	# 禁止设置级别以下的日志输出了
+logger.disabled = True			# 
+
+
+# TimedRotatingFileHandler 类构造函数
+def __init__(self, filename, when='h', interval=1, backupCount=0, encoding=None, delay=False, utc=False, atTime=None):
+# 每隔 1小时 划分一个日志文件，interval 是时间间隔，备份文件为 10 个
+handler2 = logging.handlers.TimedRotatingFileHandler("test.log", when="H", interval=1, backupCount=10)
+
+# RotatingFileHandler 类的构造函数
+def __init__(self, filename, mode='a', maxBytes=0, backupCount=0, encoding=None, delay=False)
+# 每隔 1000 Byte 划分一个日志文件，备份文件为 3 个
+file_handler = logging.handlers.RotatingFileHandler("test.log", mode="w", maxBytes=1000, backupCount=3, encoding="utf-8")
 
 
 Formatter 对象用来设置具体的输出格式，常用变量格式如下表所示，所有参数见 Python(3.7)官方文档：
@@ -73,4 +88,26 @@ thread		%(thread)d		当前线程ID
 threadName	%threadName)s	当前线程名称
 ---------------------------------------------
 ---------------------------------------------
+
+
+For example, they could be incorporated into logged messages. For example:
+---------------------------------------------------------------------------------------
+FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+logging.basicConfig(format=FORMAT)
+d = {'clientip': '192.168.0.1', 'user': 'fbloggs'}
+logger = logging.getLogger('tcpserver')
+logger.warning('Protocol problem: %s', 'connection reset', extra=d)
+would print something like
+-------------------------------------
+2006-02-08 22:20:02,165 192.168.0.1 fbloggs  Protocol problem: connection reset
+---------------------------------------------------------------------------------------
+
+
+Filter Objects
+For example, a filter initialized with ‘A.B’ will allow events logged by loggers ‘A.B’, ‘A.B.C’, ‘A.B.C.D’, ‘A.B.D’ etc. but not ‘A.BB’, ‘B.A.B’ etc. 
+If initialized with the empty string, all events are passed.
+class logging.Filter(name='')
+	filter(record)
+	# Is the specified record to be logged? 
+	# Returns zero for no, nonzero for yes. If deemed appropriate, the record may be modified in-place by this method.
 
