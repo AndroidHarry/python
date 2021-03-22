@@ -229,8 +229,14 @@ print(["%s=%s" % (k, v) for k, v in params.items()])
 # ['server=mpilgrim', 'uid=sa', 'database=master', 'pwd=secret']
 
 
-
-
+dict 构造函数
+------------------
+d={"a":1}
+d2={'b':5}
+d3=dict(d,**d2)
+---------
+d3
+{'a': 1, 'b': 5}
 
 
 

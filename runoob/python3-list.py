@@ -353,6 +353,8 @@ print('您输入的数字为:',num)
 print('最大值为: ',max(num))
 
 
-
+# 使用切片
+mylist[start:end:step]
+# mylist[::-1] 就能达到逆序的目的
 
 
