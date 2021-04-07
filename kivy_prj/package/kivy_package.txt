@@ -1,0 +1,12 @@
+
+Kivy中文编程指南：打包为 Windows 系统可执行文件
+https://www.bookstack.cn/read/Kivy-CN/13-Kivy-Pack-Windows.md
+
+**
+在 *.spec 中, from kivy.deps import sdl2, glew 是会报错的，要改成 
+from kivy_deps import sdl2, glew
+
+在 \Lib\site-packages\kivy\tests\pyinstaller\video_widget\main.spec 中，也是这么写的。
+
+==========================================================================================
+
