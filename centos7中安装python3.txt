@@ -1,0 +1,4 @@
+centos7中安装python3
+https://www.cnblogs.com/xiujin/p/11477419.html
+
+
