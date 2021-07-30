@@ -43,14 +43,6 @@ pip list
 
 ========================================================================================
 
-Django之session详解
-https://www.cnblogs.com/daviddd/p/12053482.html
-
-
-django中的request对象详解
-https://www.cnblogs.com/shangping/p/11602885.html
-
-
 调试时按 F5 不起作用, 在 .vscode 目录下建个 settings.json 文件, 加入语句 
 "python.pythonPath": "F:\\Python36\\python.exe"
 就可以了。

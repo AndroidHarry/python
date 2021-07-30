@@ -1,0 +1,59 @@
+{
+	"新建工程、启动": {
+		"准备": "0. 进入 venv_django",
+		"进入我们的站点目录，创建 Django 项目": "$ django-admin.py startproject testdj",
+		"启动服务": [
+			"cd testdj # 切换到我们创建的项目",
+			"$ python manage.py runserver",
+			"$ python manage.py runserver 0.0.0.0:8000",
+			"0.0.0.0 让其它电脑可连接到开发服务器，8000 为端口号。如果不说明，那么端口号默认为 8000。",
+			"我们输入本机 IP 地址： 127.0.0.1:8000"
+		]
+	},
+	"vs_code": {
+		"创建工程": [
+			"django-admin.py startproject xxx",
+			"假如找不到 django-admin.py, 就把路径打全;但一般在 venv_django 下运行命令"
+		],
+		"配置运行和调试": [
+			"“运行和调试”的“创建 launch.json 文件”, 语言选择 python, “调试配置”选择“Django”",
+			"这样，就在 .vscode 目录下建了个 launch.json 文件",
+			"修改端口 launch.json 改为 8087, 加在 args:runserver 后",
+			"按 F5 运行 python manage.py runserver 0.0.0.0:8087"
+		]
+	},
+	"app": {
+		"url": [
+			"https://www.jianshu.com/p/08e175e6663e",
+			"https://www.runoob.com/django/django-model.html"
+		],
+		"创建": [
+			"python manage.py startapp loginworld",
+			"Django 规定，如果要使用模型，必须要创建一个 app。 django-admin.py startapp TestModel"
+		],
+		"配置": [
+			"需要在setting的INSTALLD_APPS 列表中进行配置才能正常使用该app应用"
+		],
+		"使用": {
+			"重复命名": [
+				"比较简单的做法是在每个App的urls页面分别设置一个不同的app_name"
+			]
+		}
+	},
+	"模板": {
+		"url": "https://www.runoob.com/django/django-template.html",
+		"配置静态文件": [
+			"https://www.runoob.com/django/django-template.html",
+			"首先需要{% load static %}，之后只需要引用文件相对static文件夹的路径即可。",
+			"在app下创建一个static文件夹，在这个static文件夹下创建一个当前app的名字的文件夹，再把静态文件放到这个文件夹下。",
+			"要注意的是，{% load static %}需要放在html的头部位置（至少在使用static标签的上面），一般都是放在html的最上面。如果{% extend %}标签和{% load static %}同时存在，{% extend %}需要放在最上面，然后再放{% load static %}等标签。",
+			"可以在settings中的TEMPLATES/OPTIONS添加'builtins':['django.templatetags.static']，这样以后就可以在模版中直接使用static标签，而不用手动load。"
+		]
+	},
+	"session": {
+		"Django之session详解": "https://www.cnblogs.com/daviddd/p/12053482.html"
+	},
+	"request对象": {
+		"django中的request对象详解": "https://www.cnblogs.com/shangping/p/11602885.html"
+	}
+}
